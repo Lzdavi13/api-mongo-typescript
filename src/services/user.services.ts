@@ -19,6 +19,12 @@ export class UsersServices {
       throw new Error("Preencha os campos corretamente");
     }
 
+    const userFound = await this.usersRepository.findByEmail(user.email);
+
+    if (userFound) {
+      throw new Error("Email já esta cadastrado");
+    }
+
     const saltGenerated = await genSalt(8);
 
     const encryptedPassword = await hash(user.password, saltGenerated);
