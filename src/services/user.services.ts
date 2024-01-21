@@ -58,7 +58,21 @@ export class UsersServices {
   async updateUser(id: string, user: Partial<User>): Promise<User> {
     await this.findUser(id);
 
-    const userUpdated = await this.usersRepository.updateUser(id, user);
+    if (user.password) {
+      const saltGenerated = await genSalt(8);
+
+      const encryptedPassword = await hash(user.password, saltGenerated);
+      await this.usersRepository.updateUser(id, {
+        password: encryptedPassword,
+      });
+    }
+
+    const { password, ...userForUpdate } = user;
+
+    const userUpdated = await this.usersRepository.updateUser(
+      id,
+      userForUpdate
+    );
 
     return userUpdated;
   }

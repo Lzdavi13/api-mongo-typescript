@@ -15,7 +15,9 @@ export class UsersRepository implements IUsersRepository {
   }
 
   async findByEmail(email: string): Promise<UserDTO | null> {
-    const user = await this.userModel.findOne({ email });
+    const user = await this.userModel
+      .findOne({ email })
+      .select("_id name email password");
 
     return user;
   }

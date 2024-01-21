@@ -14,7 +14,7 @@ app.post("/user", (request, response) => {
   return userController.createUser(request, response);
 });
 
-app.post("user/login", (request, response) => {
+app.post("/user/login", (request, response) => {
   return userLoginController.handle(request, response);
 });
 
