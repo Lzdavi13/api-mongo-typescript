@@ -1,3 +1,4 @@
+import { genSalt, hash } from "bcrypt";
 import { User } from "../model/users.model";
 import { UserDTO } from "../repositories/UserDTO";
 import { UsersRepository } from "../repositories/users.repositoy";
@@ -18,7 +19,13 @@ export class UsersServices {
       throw new Error("Preencha os campos corretamente");
     }
 
-    const newUser = await this.usersRepository.createUser(user);
+    const saltGenerated = await genSalt(8);
+
+    const encryptedPassword = await hash(user.password, saltGenerated);
+
+    const _user = { ...user, password: encryptedPassword } as User;
+
+    const newUser = await this.usersRepository.createUser(_user);
     if (newUser === null) {
       throw new Error("Não foi possivel salvar o usuario");
     }
