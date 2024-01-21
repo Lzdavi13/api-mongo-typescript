@@ -14,14 +14,20 @@ export class UsersRepository implements IUsersRepository {
   }
 
   async createUser(user: User): Promise<UserDTO> {
-    const newUser = this.userModel.create(user);
+    const newUser = await this.userModel.create(user);
 
     return newUser;
   }
 
   async findAll(): Promise<User[]> {
-    const users = this.userModel.find({});
+    const users = await this.userModel.find({});
 
     return users;
+  }
+
+  async updateUser(id: string, user: Partial<User>): Promise<User> {
+    const userUpdated = await this.userModel.findByIdAndUpdate(id, user);
+
+    return userUpdated as User;
   }
 }
