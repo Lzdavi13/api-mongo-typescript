@@ -49,4 +49,10 @@ export class UsersServices {
 
     return userUpdated;
   }
+
+  async deleteUser(id: string): Promise<string> {
+    await this.deleteUser(id);
+
+    return "Usuario deletado com sucesso";
+  }
 }
