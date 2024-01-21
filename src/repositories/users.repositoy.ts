@@ -18,4 +18,10 @@ export class UsersRepository implements IUsersRepository {
 
     return newUser;
   }
+
+  async findAll(): Promise<User[]> {
+    const users = this.userModel.find({});
+
+    return users;
+  }
 }
