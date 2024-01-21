@@ -30,4 +30,8 @@ export class UsersRepository implements IUsersRepository {
 
     return userUpdated as User;
   }
+
+  async deleteUser(id: string): Promise<object> {
+    return await this.userModel.deleteOne({ _id: id });
+  }
 }

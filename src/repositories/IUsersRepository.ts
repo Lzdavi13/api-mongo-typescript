@@ -6,4 +6,5 @@ export interface IUsersRepository {
   createUser(user: User): Promise<UserDTO>;
   findAll(): Promise<User[]>;
   updateUser(id: string, user: Partial<User>): Promise<User>;
+  deleteUser(id: string): Promise<object>;
 }
