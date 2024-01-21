@@ -15,6 +15,18 @@ app.get("/user/:id", (request, response) => {
   return userController.findUser(request, response);
 });
 
+app.get("/users", (request, response) => {
+  return userController.findAllUsers(request, response);
+});
+
+app.put("/user/:id", (request, response) => {
+  return userController.updateUser(request, response);
+});
+
+app.delete("/user/:id", (request, response) => {
+  return userController.deleteUser(request, response);
+});
+
 app.listen(3333, () => {
   console.log("servidor iniciado");
 });

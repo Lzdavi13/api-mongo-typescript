@@ -29,8 +29,6 @@ export class UsersServices {
   async findUser(id: string): Promise<UserDTO> {
     const userFound = await this.usersRepository.findUser(id);
 
-    console.log(userFound);
-
     if (userFound === null) {
       throw new Error("Não foi possivel encontrar o usuario");
     }
@@ -51,7 +49,7 @@ export class UsersServices {
   }
 
   async deleteUser(id: string): Promise<string> {
-    await this.deleteUser(id);
+    await this.usersRepository.deleteUser(id);
 
     return "Usuario deletado com sucesso";
   }

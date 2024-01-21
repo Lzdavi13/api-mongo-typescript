@@ -54,7 +54,7 @@ export class UsersController {
 
   async deleteUser(req: Request, res: Response): Promise<Response> {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       await this.usersServices.deleteUser(id);
 
       return res.status(200).json({ mensagem: "Usuario deletado com sucesso" });
