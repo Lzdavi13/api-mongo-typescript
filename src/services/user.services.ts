@@ -43,12 +43,15 @@ export class UsersServices {
   }
 
   async updateUser(id: string, user: Partial<User>): Promise<User> {
+    await this.findUser(id);
+
     const userUpdated = await this.usersRepository.updateUser(id, user);
 
     return userUpdated;
   }
 
   async deleteUser(id: string): Promise<string> {
+    await this.findUser(id);
     await this.usersRepository.deleteUser(id);
 
     return "Usuario deletado com sucesso";
