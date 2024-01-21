@@ -7,8 +7,9 @@ export class UsersRepository implements IUsersRepository {
   constructor(private readonly userModel: Model<User>) {}
 
   async findUser(id: string): Promise<UserDTO | null> {
-    const user = await this.userModel.findOne({ _id: id });
-    console.log(user);
+    const user = await this.userModel
+      .findOne({ _id: id })
+      .select("_id name email");
 
     return user;
   }
@@ -20,13 +21,15 @@ export class UsersRepository implements IUsersRepository {
   }
 
   async findAll(): Promise<User[]> {
-    const users = await this.userModel.find({});
+    const users = await this.userModel.find({}).select("_id name email");
 
     return users;
   }
 
   async updateUser(id: string, user: Partial<User>): Promise<User> {
-    const userUpdated = await this.userModel.findByIdAndUpdate(id, user);
+    const userUpdated = await this.userModel
+      .findByIdAndUpdate(id, user)
+      .select("_id name email");
 
     return userUpdated as User;
   }
