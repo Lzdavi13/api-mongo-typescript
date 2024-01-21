@@ -18,4 +18,10 @@ export class UsersController {
 
     return res.status(201).json({ usuario: foundUser });
   }
+
+  async findAllUsers(req: Request, res: Response): Promise<Response> {
+    const listUsers = await this.usersServices.findAllUsers();
+
+    return res.status(200).json({ usuarios: listUsers });
+  }
 }

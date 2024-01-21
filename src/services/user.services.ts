@@ -37,4 +37,10 @@ export class UsersServices {
 
     return userFound;
   }
+
+  async findAllUsers(): Promise<User[]> {
+    const listUsers = await this.usersRepository.findAll();
+
+    return listUsers;
+  }
 }
