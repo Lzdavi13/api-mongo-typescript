@@ -1,12 +1,12 @@
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
-import { database } from "./database/connection";
+import { connectMongoDB } from "./database/connection";
 import routes from "./routes/routes";
 
 const app = express();
 
-database._connect();
+connectMongoDB();
 
 app.use(cors());
 app.use(express.json());

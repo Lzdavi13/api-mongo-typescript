@@ -1,21 +1,19 @@
 import * as mongoose from "mongoose";
 
-export class Database {
-  constructor() {
-    this._connect();
+const MONGODB_URL =
+  process.env.MONGODB_URL || "mongodb://luiz:apiTest@db:27017";
+
+export const connectMongoDB = async () => {
+  try {
+    await mongoose.connect(MONGODB_URL);
+
+    console.log("== Connected to MongoDB == ");
+  } catch (error) {
+    console.log("xx MongoDB disconnected xx", error);
   }
+};
 
-  async _connect() {
-    try {
-      await mongoose.connect(
-        "mongodb+srv://luizd:hklzKVxvEgfn57h3@database.9tpr8.mongodb.net/?retryWrites=true&w=majority"
-      );
-
-      console.log("conectado ao banco de dados");
-    } catch (error) {
-      console.log("Error conexao mongodb:", error);
-    }
-  }
-}
-
-export const database = new Database();
+mongoose.connection.on("disconnected", () => {
+  console.log(" xx MongoDB disconnected xx");
+  setTimeout(connectMongoDB, 5000);
+});
