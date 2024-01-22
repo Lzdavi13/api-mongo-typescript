@@ -36,7 +36,7 @@ export class UsersRepository implements IUsersRepository {
 
   async updateUser(id: string, user: Partial<User>): Promise<User> {
     const userUpdated = await this.userModel
-      .findByIdAndUpdate(id, user)
+      .findOneAndUpdate({ _id: id }, { ...user })
       .select("_id name email");
 
     return userUpdated as User;

@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  node-server:
+    build: .
+    ports:
+      - "3333:3333"
+    environment:
+      JWT_SECRET: 101120
+    depends_on:
+      - db
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: luiz
+      MONGO_INITDB_ROOT_PASSWORD: apiTest
+    volumes:
+      - data-api-typescript:/var/lib/mongo/data
+volumes:
+  data-api-typescript:

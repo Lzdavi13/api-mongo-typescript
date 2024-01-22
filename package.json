@@ -6,7 +6,8 @@
   "author": "Luiz D O Santos <lzdavi1325@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --exec ts-node ./src/main.ts"
+    "dev": "nodemon --exec ts-node ./src/main.ts",
+    "build": "tsc"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

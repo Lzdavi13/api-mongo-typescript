@@ -12,8 +12,3 @@ export const connectMongoDB = async () => {
     console.log("xx MongoDB disconnected xx", error);
   }
 };
-
-mongoose.connection.on("disconnected", () => {
-  console.log(" xx MongoDB disconnected xx");
-  setTimeout(connectMongoDB, 5000);
-});

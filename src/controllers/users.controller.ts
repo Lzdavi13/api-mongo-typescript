@@ -45,7 +45,7 @@ export class UsersController {
       const { id } = req.params;
       const updatedUser = await this.usersServices.updateUser(id, req.body);
 
-      return res.status(200).json({ updatedUser });
+      return res.status(200).json({ user: updatedUser });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ mensagem: "erro interno no servidor" });

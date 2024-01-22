@@ -17,6 +17,7 @@ export class UserLoginServices {
 
   async execute(email: string, password: string): Promise<IUserLogin> {
     const user = await this.usersRepository.findByEmail(email);
+    console.log(user);
 
     if (!user) {
       throw new Error("Usuario não encontrado");
