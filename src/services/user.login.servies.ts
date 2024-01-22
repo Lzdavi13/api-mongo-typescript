@@ -1,6 +1,6 @@
-import { sign } from "jsonwebtoken";
-
 import { compare } from "bcrypt";
+import { sign } from "jsonwebtoken";
+import { ApiError } from "../helpers/ApiError";
 import { IUsersRepository } from "./../repositories/IUsersRepository";
 
 interface IUserLogin {
@@ -17,16 +17,15 @@ export class UserLoginServices {
 
   async execute(email: string, password: string): Promise<IUserLogin> {
     const user = await this.usersRepository.findByEmail(email);
-    console.log(user);
 
     if (!user) {
-      throw new Error("Usuario não encontrado");
+      throw new ApiError("Usuario não encontrado", 404);
     }
 
     const decryptedPassword = await compare(password, user.password);
 
     if (!decryptedPassword) {
-      throw new Error("Senha incorreta");
+      throw new ApiError("Senha incorreta", 400);
     }
 
     const jwtToken = sign({ id: user._id }, process.env.JWT_SECRET as string, {

@@ -6,22 +6,34 @@ export async function ensureAuthenticated(
   response: Response,
   next: NextFunction
 ) {
-  const { authorization } = request.headers;
-
   try {
+    const { authorization } = request.headers;
+
     if (!authorization) {
-      return response.status(401).json({ mensagem: "Não autorizado" });
+      return response
+        .status(401)
+        .json({ mensagem: "Não autorizado", statusCode: 401 });
     }
 
     const [type, token] = authorization.split(" ");
+    if (!token) {
+      return response
+        .status(401)
+        .json({ mensagem: "Não autorizado", statusCode: 401 });
+    }
+
     if (type !== "Bearer") {
-      return response.status(401).json({ mensagem: "token invalido" });
+      return response
+        .status(401)
+        .json({ mensagem: "token invalido", statusCode: 401 });
     }
 
     const id = verify(token, process.env.JWT_SECRET as string);
 
     if (!id) {
-      return response.status(401).json({ mensagem: "Não autorizado" });
+      return response
+        .status(401)
+        .json({ mensagem: "Não autorizado", statusCode: 401 });
     }
 
     return next();

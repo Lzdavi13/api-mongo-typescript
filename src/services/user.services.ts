@@ -1,4 +1,5 @@
 import { genSalt, hash } from "bcrypt";
+import { ApiError } from "../helpers/ApiError";
 import { User } from "../model/users.model";
 import { UserDTO } from "../repositories/UserDTO";
 import { UsersRepository } from "../repositories/users.repositoy";
@@ -8,21 +9,21 @@ export class UsersServices {
 
   async createUser(user: User): Promise<UserDTO> {
     if (!user.name) {
-      throw new Error("Preencha os campos corretamente");
+      throw new ApiError("Preencha os campos corretamente", 400);
     }
 
     if (!user.email) {
-      throw new Error("Preencha os campos corretamente");
+      throw new ApiError("Preencha os campos corretamente", 400);
     }
 
     if (!user.password) {
-      throw new Error("Preencha os campos corretamente");
+      throw new ApiError("Preencha os campos corretamente", 400);
     }
 
     const userFound = await this.usersRepository.findByEmail(user.email);
 
     if (userFound) {
-      throw new Error("Email já esta cadastrado");
+      throw new ApiError("Email já esta cadastrado", 400);
     }
 
     const saltGenerated = await genSalt(8);
@@ -33,17 +34,21 @@ export class UsersServices {
 
     const newUser = await this.usersRepository.createUser(_user);
     if (newUser === null) {
-      throw new Error("Não foi possivel salvar o usuario");
+      throw new ApiError("Não foi possivel salvar o usuario", 400);
     }
 
     return newUser;
   }
 
   async findUser(id: string): Promise<UserDTO> {
+    if (!id) {
+      throw new ApiError("Informe um id válido", 400);
+    }
+
     const userFound = await this.usersRepository.findUser(id);
 
     if (userFound === null) {
-      throw new Error("Não foi possivel encontrar o usuario");
+      throw new ApiError("Não foi possivel encontrar o usuario", 400);
     }
 
     return userFound;
